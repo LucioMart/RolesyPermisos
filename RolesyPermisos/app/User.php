@@ -41,4 +41,21 @@ class User extends Authenticatable
         return $this->belogsToMany(Role::class);
     }
 
+    public function authorizeRoles($roles) {
+        if(is_array($roles)) {
+            return $this->hasAnyRole($role) || abort(401, 'No autorizado');
+        }
+
+        return $this->hasRole($role) || abort(401, 'No Autorizado');
+
+    }
+
+    public function hasAnyRole($roles) {
+        return null !== $this->roles()->whereIn('name', $roles)->first();
+    }
+
+    public function hasRole($role) {
+        return null !== $this->roles()->where('name', $role)->first();
+    }
+
 }
