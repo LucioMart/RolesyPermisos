@@ -17,7 +17,11 @@ class CheckRole
     {
         if(! $request->user()->hasRole($role)) {
             return redirect('home');
-            return $next($request);
         }
+       /* if(!Auth::user()->hasRoles($roles)) {
+            return redirect('/404');
+        }  Multiples usuarios   */
+        return $next($request);
     }
+
 }

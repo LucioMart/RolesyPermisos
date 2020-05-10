@@ -38,15 +38,15 @@ class User extends Authenticatable
     ];
 
     public function roles() {
-        return $this->belogsToMany(Role::class);
+        return $this->belongsToMany(Role::class)->withTimesTamps();
     }
 
     public function authorizeRoles($roles) {
         if(is_array($roles)) {
-            return $this->hasAnyRole($role) || abort(401, 'No autorizado');
+            return $this->hasAnyRole($roles) || abort(401, 'No autorizado');
         }
 
-        return $this->hasRole($role) || abort(401, 'No Autorizado');
+        //return $this->hasRole($roles) || abort(401, 'No Autorizado');
 
     }
 
@@ -55,7 +55,16 @@ class User extends Authenticatable
     }
 
     public function hasRole($role) {
-        return null !== $this->roles()->where('name', $role)->first();
+
+       /* $roles_array = explore("|", $roles);
+
+        if($this->roles()->whereIn('name', $roles_array)->first()) {
+            return true;
+        }
+
+        return false;  Para multiples usuarios  */
+
+        return /*null !==*/ $this->roles()->where('name', $role)->first();
     }
 
 }

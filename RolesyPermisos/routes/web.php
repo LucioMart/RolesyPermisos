@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/*Route::group(['middleware' => ['auth', 'role:employee|manager']], function() {
+    Route::get('/admin/home', 'AdminController@index')->name('home');
+});  Multiples usuarios  */
